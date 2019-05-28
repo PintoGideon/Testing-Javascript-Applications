@@ -72,12 +72,8 @@ Simulating events for testing
 
 When we call setState, we cause our component to re-render asynchronously. It queues up an update in React. While testing, the instance we simulate the change, right after the code, we have an expression that immediately looks at the component and checks if the new value is available.
 
-<<<<<<< HEAD
-describe can be used to group together certain types of tests. It can also be used to limit the scope of beforeEach statements.
-=======
 describe can be used to group together certain types of tests. It can also be used to limit the scope of beforeEach statements. 
 ![describe-it](https://user-images.githubusercontent.com/15992276/58441513-9aba2280-80b0-11e9-9b1d-1f8f51828a5f.JPG)
->>>>>>> 3530bbc1511942896e40e415456482b0476fc614
 
 Sometimes our components are subscribed to a Redux store. This can make it difficult to test because it requires a mocked Redux store in order to render in our test files.
 
