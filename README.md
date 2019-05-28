@@ -7,6 +7,6 @@ Testing Javascript
 
 # Table of Contents
 
-1. [Fundamentals of Testing in Javascript](./fundamentals-of-testing)
+1. [Fundamentals of Testing in Javascript](./fundamentals_of_testing)
 
 2. [Fundamentals of Testing React Components](./Testing_React_Components_Basic)
