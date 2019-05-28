@@ -1,4 +1,4 @@
-Testing Javascript
+# Testing Javascript Applications
 
 **_Notes can be found in Folder specific topics_**.
 
