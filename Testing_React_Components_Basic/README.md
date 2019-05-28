@@ -58,6 +58,29 @@ Simulating events for testing
 
 When we call setState, we cause our component to re-render asynchronously. It queues up an update in React. While testing, the instance we simulate the change, right after the code, we have an expression that immediately looks at the component and checks if the new value is available.
 
-describe can be used to group together certain types of tests. It can also be used to limit the scope of beforeEach statements. 
+describe can be used to group together certain types of tests. It can also be used to limit the scope of beforeEach statements.
 
+Sometimes our components are subscribed to a Redux store. This can make it difficult to test because it requires a mocked Redux store in order to render in our test files.
 
+# Testing Reducers
+
+- Send actions with a type of 'SAVE_COMMENT'
+- Doesn't throw an error if it gets an action with any
+  other type
+
+We will create a fake action with the type SAVE_COMMENT and a payload and send it to the reducer. The reducer will return a new state which can be compared to the expected value.
+
+# Testing Action Creators
+
+Testing our CommentList component is a bit tricky
+
+It gets the comments store as a state in the redux store through mapStateToProps
+
+```javascript
+<Root>
+	<CommentList />
+</Root>
+```
+
+When Comment List boots up , the state in the redux store is empty hence testing becomes difficult.
+We will pass an initalState to the Root Component via props which will set an intial state in our store.
