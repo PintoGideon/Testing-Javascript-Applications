@@ -77,6 +77,8 @@ describe can be used to group together certain types of tests. It can also be us
 
 Sometimes our components are subscribed to a Redux store. This can make it difficult to test because it requires a mocked Redux store in order to render in our test files.
 
+![Redux](https://user-images.githubusercontent.com/15992276/58450930-4da17500-80df-11e9-9d01-0e9c373fe575.JPG)
+
 # Testing Reducers
 
 - Send actions with a type of 'SAVE_COMMENT'
