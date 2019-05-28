@@ -1,11 +1,3 @@
-**Table of Contents**
-
-- [1. Throw an Error with a Simple Test in JavaScript](#1-throw-an-error-with-a-simple-test-in-javascript)
-- [2. Abstract Test Assertions into a JavaScript Assertion Library](#2-abstract-test-assertions-into-a-javascript-assertion-library)
-- [3. Encapsulate and Isolate Tests by building a JavaScript Testing Framework](#3-encapsulate-and-isolate-tests-by-building-a-javascript-testing-framework)
-- [4. Support Async Tests with JavaScripts Promises through async await](#4-support-async-tests-with-javascripts-promises-through-async-await)
-- [5. Provide Testing Helper Functions as Globals in JavaScript](#5-provide-testing-helper-functions-as-globals-in-javascript)
-- [6. Verify Custom JavaScript Tests with Jest](#6-verify-custom-javascript-tests-with-jest)
 
 # 1. Throw an error with a Simple Test in Javascropt
 
