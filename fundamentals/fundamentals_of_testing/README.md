@@ -1,10 +1,10 @@
 
-# 1. Throw an error with a Simple Test in Javascropt
+# 1. Throw an error with a Simple Test in JavaScript
 
 An automated test is code that throws an error when things are unexpected.
 The job of a testing framework is to make sure the test is as useful as possible so we can quickly remedy our errors.
 
-# 2. Abstract Test Assertions into a Javascript Assertion Library
+# 2. Abstract Test Assertions into a JavaScript Assertion Library
 
 An assertion library can be as simple as a function which takes a result and
 returns an object containing a number of different assertions which allows
