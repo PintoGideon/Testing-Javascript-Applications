@@ -1,61 +1,69 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { guessWord } from "../../actions/index";
+import React from "react";
+import PropTypes from "prop-types";
 
-export class UnConnectedInput extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      currentGuess: "",
-    };
+import guessedWordsContext from "../contexts/guessedWordsContext";
+import successContext from "../contexts/successContext";
+import languageContext from "../contexts/languageContext";
+import stringsModule from "../../helpers/strings";
+import { getLetterMatchCount } from "../../helpers/index";
+
+function Input({ secretWord }) {
+  const language = React.useContext(languageContext);
+  const [success, setSuccess] = successContext.useSuccess();
+  const [guessedWords, setGuessedWords] = guessedWordsContext.useGuessedWords();
+  const [currentGuess, setCurrentGuess] = React.useState("");
+
+  if (success) {
+    return null;
   }
-  render() {
-    const contents =
-      this.props.success === true ? (
-        <div className="correct-guess">Congratulations !</div>
-      ) : (
-        <form className="form-inline">
-          <input
-            data-test="input-box"
-            className="mb-2 mx-sm-3"
-            type="text"
-            placeholder="enter guess"
-            value={this.state.currentGuess}
-            onChange={(event) => {
-              this.setState({
-                currentGuess: event.target.value,
-              });
-            }}
-          />
-          <button
-            data-test="submit-button"
-            className="btn btn-primary mb-2"
-            type="submit"
-            onClick={(event) => {
-              event.preventDefault();
-              const guessedWord = this.state.currentGuess;
 
-              if (guessedWord && guessedWord.length > 0) {
-                this.props.guessWord(guessedWord);
-                this.setState({
-                  currentGuess: "",
-                });
-              }
-            }}
-          >
-            Submit
-          </button>
-        </form>
-      );
+  return (
+    <div data-test="component-input">
+      <form className="form-inline">
+        <input
+          data-test="input-box"
+          className="mb-2 mx-sm-3"
+          type="text"
+          placeholder={stringsModule.getStringByLanguage(
+            language,
+            "guessInputPlaceholder"
+          )}
+          value={currentGuess}
+          onChange={(event) => setCurrentGuess(event.target.value)}
+        />
+        <button
+          data-test="submit-button"
+          onClick={(evt) => {
+            evt.preventDefault();
+            // update guessedWords
+            const letterMatchCount = getLetterMatchCount(
+              currentGuess,
+              secretWord
+            );
+            const newGuessedWords = [
+              ...guessedWords,
+              { guessedWord: currentGuess, letterMatchCount },
+            ];
+            setGuessedWords(newGuessedWords);
 
-    return <div data-test="component-input">{contents}</div>;
-  }
+            // check against secretWord and update success if needed
+            if (currentGuess === secretWord) {
+              setSuccess(true);
+            }
+            // clear input box
+            setCurrentGuess("");
+          }}
+          className="btn btn-primary mb-2"
+        >
+          {stringsModule.getStringByLanguage(language, "submit")}
+        </button>
+      </form>
+    </div>
+  );
 }
 
-const mapStateToProps = ({ success }) => {
-  return { success };
+Input.propTypes = {
+  secretWord: PropTypes.string.isRequired,
 };
 
-export default connect(mapStateToProps, {
-  guessWord,
-})(UnConnectedInput);
+export default Input;

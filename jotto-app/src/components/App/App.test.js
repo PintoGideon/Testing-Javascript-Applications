@@ -1,31 +1,57 @@
 import React from "react";
-import { UnConnectedApp } from "./App";
-import { shallow } from "enzyme";
-import { getSecretWord } from "../../actions";
+import { findByTestAttr } from "../../test/testUtils";
+import { mount } from "enzyme";
+import App from "./App";
+import hookActions from "../../actions/hookActions";
 
-const setup = (state = {}) => {
-  const store = storeFactory(state);
-  const wrapper = shallow(<App store={store} />)
-    .dive()
-    .dive();
-  return wrapper;
+const mockGetSecretWord = jest.fn();
+
+const setup = (secretWord = "party") => {
+  mockGetSecretWord.mockClear();
+  hookActions.getSecretWord = mockGetSecretWord;
+  //use Mount, because useEffect not called on 'shallow'.
+
+  const mockUseReducer = jest
+    .fn()
+    .mockReturnValue([{ secretWord, languge: "en" }, jest.fn()]);
+  React.useReducer = mockUseReducer;
+
+  return mount(<App />);
 };
 
-test("get secret word runs on App mount", () => {
-  const getSecretWordMock = jest.fn();
+test("App renders without error", () => {
+  const wrapper = setup();
+  const component = findByTestAttr(wrapper, "component-app");
+  expect(component.length).toBe(1);
+});
 
-  // Setup the app component with getSecretWord as the getSecretWord prop
+describe("getSecretWord calls", () => {
+  test("GetSecretWord gets called on App mount", () => {
+    setup();
+    expect(mockGetSecretWord).toHaveBeenCalled();
+  });
 
-  const props = {
-    getSecretWord: getSecretWordMock,
-    success: false,
-    guessedWords: [],
-  };
-  const wrapper = shallow(<UnConnectedApp {...props} />);
+  test("SecretWord does not update on App update", () => {
+    const wrapper = setup();
+    mockGetSecretWord.mockClear();
 
-  // run lifecycle method
+    wrapper.setProps();
+    expect(mockGetSecretWord).not.toHaveBeenCalled();
+  });
+});
 
-  wrapper.instance().componentDidMount();
-  const getSecretWordCallCount = getSecretWordMock.mock.calls.length;
-  expect(getSecretWordCallCount).toBe(1);
+describe("secretWord is not null", () => {
+  let wrapper;
+  beforeEach(() => {
+    wrapper = setup("party");
+  });
+  test("renders app when secret word is not null", () => {
+    const appComponent = findByTestAttr(wrapper, "component-app");
+    expect(appComponent.exists()).toBe(true);
+  });
+
+  test("does not render spinner when secret Word is not null", () => {
+    const spinnerComponent = findByTestAttr(wrapper, "spinner");
+    expect(spinnerComponent.exists()).toBe(true);
+  });
 });
